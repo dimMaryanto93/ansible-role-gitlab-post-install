@@ -1,0 +1,10 @@
+{
+    "auths": {
+        "{{ docker_registry_domain | default('private.nexus-registry.docker.local') }}:8086": {
+            "auth": "{{ docker_registry_login_secret | b64encode }}"
+        },
+        "{{ docker_registry_domain | default('private.nexus-registry.docker.local') }}:8087": {
+            "auth": "{{ docker_registry_login_secret | b64encode }}"
+        }
+    }
+}
