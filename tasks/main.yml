@@ -2,7 +2,9 @@
 - name: Setting host facts using complex arguments
   set_fact:
     gitlab_baseurl_api: "{{ gitlab_url }}{{ gitlab_api_context_path }}"
-
 - name: Add variables to gitlab instance
   include_tasks: instance-variables.yaml
   when: enabled_gitlab_config_variables_instance
+- name: Update setting for import & export project
+  include_tasks: import-settings.yaml
+  when: enabled_gitlab_import_sources

@@ -1,0 +1,15 @@
+- name: Setting host facts to use gitlab api v4 variables
+  set_fact:
+    gitlab_import_settings_api: "{{ gitlab_baseurl_api }}/application/settings"
+
+# import_sources: Sources to allow project import from, possible values: github, bitbucket, bitbucket_server, fogbugz, git, gitlab_project, gitea, and manifest. 
+
+- name: Update application settings
+  uri:
+    url: "{{ gitlab_import_settings_api }}?import_sources={{ gitlab_import_sources | urlencode }}"
+    headers:
+      PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+    method: PUT
+    return_content: yes
+    status_code: 200
+    body_format: json
