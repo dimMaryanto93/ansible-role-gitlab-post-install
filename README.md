@@ -14,7 +14,7 @@ Persiapan yang harus di lalukan, diantaranya
 1. Authenticate with private-key for login ssh, generate ssh key on your local machine then use `ssh-copy-id user@your-ip-server` to copy public key to your server.
 2. Create personal access token for user `root` on Gitlab repository
   - Grant privileges is `api`, `read_api`, `read_user`, `create_runner`, `k8s_proxy`, `read_repository`, `write_repository`, `sudo`, `admin_mode` and give it name `tokenForAdmin` look like this:
-    ![gitlab-permission](docs/02-grant-privileges.png)
+    ![gitlab-permission](docs/01a-grant-privileges.png)
   - Set personal access token to variables: `gitlab_private_access_token`
 3. Create access token for user `admin` on Sonarqube
   - Set the token to variables: `sonarqube_auth_token`
