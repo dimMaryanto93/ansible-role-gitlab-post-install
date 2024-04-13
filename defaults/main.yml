@@ -3,76 +3,41 @@ docker_registry_login_secret: "<change-me>:<change-me>" # change this to your do
 gitlab_private_access_token: "<change-me>" # generate the access token from gitlab on personal access token, see tutorial below
 sonarqube_auth_token: "<change-me>" # generate the access token from sonarqube on System -> access token, see tutorial below
 enabled_gitlab_config_variables_instance: true
-gitlab_config_variables_instance:
-  m2_settings_xml:
-    enabled: true
-    variable_type: file
-    key: M2_SETTINGS_XML
-    value: |
-      <?xml version="1.0" encoding="UTF-8"?>
-      <settings>
-        <mirrors>
-            <mirror>
-              <!--This sends everything else to /public -->
-              <id>nexus-oss</id>
-              <mirrorOf>*</mirrorOf>
-              <url>{{ nexus_default_schema | default('http') }}://{{ nexus_default_host | default('localhost') }}:{{ nexus_default_port | default('8081') }}/repository/maven-public/</url>
-              <releases>
-                  <enabled>true</enabled>
-                  <updatePolicy>always</updatePolicy>
-              </releases>
-              <snapshots>
-                  <enabled>true</enabled>
-                  <updatePolicy>always</updatePolicy>
-              </snapshots>
-            </mirror>
-        </mirrors>
-        <servers>
-            <server>
-              <id>nexus-oss</id>
-              <username>{{ nexus_admin_user | default('admin') }}</username>
-              <password>{{ nexus_admin_password | default() }}</password>
-            </server>
-        </servers>
-      </settings>
-    protected: false
-    masked: false
-    raw: false
-    description: "Default .m2/settings.xml for gitlab-runner to pull maven repository from Nexus OSS"
-  docker_conf_json:
-    enabled: true
-    variable_type: file
-    key: DOCKER_CONF_JSON
-    value: |
-      {
-        "auths": {
-          "{{ docker_registry_domain | default('private.nexus-registry.docker.local') }}:8086": {
-            "auth": "{{ docker_registry_login_secret | b64encode }}"
-          },
-          "{{ docker_registry_domain | default('private.nexus-registry.docker.local') }}:8087": {
-            "auth": "{{ docker_registry_login_secret | b64encode }}"
-          }
-        }
+m2_setting_xml_conf: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <settings>
+    <mirrors>
+        <mirror>
+          <!--This sends everything else to /public -->
+          <id>nexus-oss</id>
+          <mirrorOf>*</mirrorOf>
+          <url>{{ nexus_default_schema | default('http') }}://{{ nexus_default_host | default('localhost') }}:{{ nexus_default_port | default('8081') }}/repository/maven-public/</url>
+          <releases>
+              <enabled>true</enabled>
+              <updatePolicy>always</updatePolicy>
+          </releases>
+          <snapshots>
+              <enabled>true</enabled>
+              <updatePolicy>always</updatePolicy>
+          </snapshots>
+        </mirror>
+    </mirrors>
+    <servers>
+        <server>
+          <id>nexus-oss</id>
+          <username>{{ nexus_admin_user | default('admin') }}</username>
+          <password>{{ nexus_admin_password | default('admin123') }}</password>
+        </server>
+    </servers>
+  </settings>
+docker_config_json_conf: |
+  {
+    "auths": {
+      "{{ docker_registry_domain | default('private.nexus-registry.docker.local') }}:8086": {
+        "auth": "{{ docker_registry_login_secret | b64encode }}"
+      },
+      "{{ docker_registry_domain | default('private.nexus-registry.docker.local') }}:8087": {
+        "auth": "{{ docker_registry_login_secret | b64encode }}"
       }
-    protected: false
-    masked: false
-    raw: false
-    description: "Default docker auth files cred (~/.docker/config.json) to pull from Nexus OSS"
-  sonarqube_conf:
-    enabled: true
-    variable_type: env_var
-    key: SONAR_URL
-    value: "{{ sonarqube_proto | default('http') }}://{{ sonarqube_host | default('localhost') }}:{{ sonarqube_port | default('9000') }}"
-    protected: false
-    masked: false
-    raw: false
-    description: null
-  sonarqube_auth_conf:
-    enabled: true
-    variable_type: env_var
-    key: SONAR_AUTH
-    value: "{{ sonarqube_auth_token }}"
-    protected: false
-    masked: false
-    raw: false
-    description: null
+    }
+  }

@@ -1,3 +1,40 @@
 ---
 gitlab_api_context_path: /api/v4
 gitlab_url: "{{ gitlab_proto | default('http') }}://{{ gitlab_address | default('localhost') }}"
+gitlab_config_variables_instance:
+  m2_settings_xml:
+    enabled: true
+    variable_type: file
+    key: M2_SETTINGS_XML
+    value: "{{ m2_setting_xml_conf }}"
+    protected: false
+    masked: false
+    raw: false
+    description: "Default .m2/settings.xml for gitlab-runner to pull maven repository from Nexus OSS"
+  docker_conf_json:
+    enabled: true
+    variable_type: file
+    key: DOCKER_CONF_JSON
+    value: "{{ docker_config_json_conf }}"
+    protected: false
+    masked: false
+    raw: false
+    description: "Default docker auth files cred (~/.docker/config.json) to pull from Nexus OSS"
+  sonarqube_conf:
+    enabled: true
+    variable_type: env_var
+    key: SONAR_URL
+    value: "{{ sonarqube_proto | default('http') }}://{{ sonarqube_host | default('localhost') }}:{{ sonarqube_port | default('9000') }}"
+    protected: false
+    masked: false
+    raw: false
+    description: null
+  sonarqube_auth_conf:
+    enabled: true
+    variable_type: env_var
+    key: SONAR_AUTH
+    value: "{{ sonarqube_auth_token }}"
+    protected: false
+    masked: false
+    raw: false
+    description: null
