@@ -64,10 +64,18 @@ Including an example of how to use your role (for instance, with variables passe
 ```ansible
 - hosts: ['all']
   vars:
+    enabled_gitlab_config_variables_instance: true
+    enabled_gitlab_import_sources: true
     gitlab_address: localhost
-    docker_registry_login_secret: "user:passwordnyaUs3r"
-    gitlab_private_access_token: "glpat-R4KpspJXvyAq6QZHsREG"
-    sonarqube_auth_token: default
+    docker_registry_login_secret: "<username>:<password>(changed-me)"
+    gitlab_private_access_token: "<changed-me>"
+    sonarqube_host: "<changed-me>"
+    sonarqube_port: "<changed-me>"
+    sonarqube_auth_token: "<changed-me>"
+    maven_default_host: "<changed-me>"
+    maven_default_port: 8081
+    maven_default_username: "<changed-me>"
+    maven_default_password: "<changed-me>"
   roles:
     - dimmaryanto93.gitlab_post_install
 ```
