@@ -1,9 +1,7 @@
 ---
-gitlab_url: "{{ gitlab_proto | default('http') }}://{{ gitlab_address | default('localhost') }}"
 docker_registry_login_secret: "<change-me>:<change-me>" # change this to your docker registry auth the format is <username>:<password>
 gitlab_private_access_token: "<change-me>" # generate the access token from gitlab on personal access token, see tutorial below
 sonarqube_auth_token: "<change-me>" # generate the access token from sonarqube on System -> access token, see tutorial below
-gitlab_api_context_path: /api/v4
 enabled_gitlab_config_variables_instance: true
 gitlab_config_variables_instance:
   m2_settings_xml:
@@ -59,7 +57,7 @@ gitlab_config_variables_instance:
     protected: false
     masked: false
     raw: false
-    description: "Default docker auth files cred to pull from Nexus OSS"
+    description: "Default docker auth files cred (~/.docker/config.json) to pull from Nexus OSS"
   sonarqube_conf:
     enabled: true
     variable_type: env_var
