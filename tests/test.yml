@@ -1,0 +1,9 @@
+---
+- hosts: ['all']
+  vars:
+    gitlab_address: localhost
+    docker_registry_login_secret: "user:passwordnyaUs3r"
+    gitlab_private_access_token: "glpat-R4KpspJXvyAq6QZHsREG"
+    sonarqube_auth_token: default
+  roles:
+    - ../../ansible-role-gitlab-post-install

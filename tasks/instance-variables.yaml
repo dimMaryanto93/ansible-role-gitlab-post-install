@@ -1,0 +1,133 @@
+- name: Setting host facts to use gitlab api v4 variables
+  set_fact:
+    gitlab_instance_variable_api: "{{ gitlab_baseurl_api }}/admin/ci/variables"
+
+- name: Create variables for maven proxy on gitlab CI/CD instance
+  block:
+  - name: Check if variable {{ gitlab_config_variables_instance['m2_settings_xml']['key'] }} is exist
+    uri:
+      url: "{{ gitlab_instance_variable_api }}/{{ gitlab_config_variables_instance['m2_settings_xml']['key'] }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: GET
+      return_content: yes
+      status_code: 200
+    failed_when: false
+    register: check_var_m2_proxy
+  - name: Debug variables check_var_m2_proxy
+    debug:
+      msg: "{{ check_var_m2_proxy.status == 404 }}"
+  - name: Create variable {{ gitlab_config_variables_instance['m2_settings_xml']['key'] }}
+    uri:
+      url: "{{ gitlab_instance_variable_api }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: POST
+      return_content: yes
+      body: 
+        key: "{{ gitlab_config_variables_instance['m2_settings_xml']['key'] }}"
+        value: "{{ gitlab_config_variables_instance['m2_settings_xml']['value'] }}"
+        description: "{{ gitlab_config_variables_instance['m2_settings_xml']['description'] }}"
+        masked: "{{ gitlab_config_variables_instance['m2_settings_xml']['masked'] }}"
+        protected: "{{ gitlab_config_variables_instance['m2_settings_xml']['protected'] }}"
+        raw: "{{ gitlab_config_variables_instance['m2_settings_xml']['raw'] }}"
+        variable_type: "{{ gitlab_config_variables_instance['m2_settings_xml']['variable_type'] }}"
+      status_code: 201
+      body_format: form-urlencoded
+    when: check_var_m2_proxy.status == 404
+  
+  - name: Check if variable {{ gitlab_config_variables_instance['docker_conf_json']['key'] }} is exist
+    uri:
+      url: "{{ gitlab_instance_variable_api }}/{{ gitlab_config_variables_instance['docker_conf_json']['key'] }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: GET
+      return_content: yes
+      status_code: 200
+    failed_when: false
+    register: check_var_docker_conf_json
+  - name: Debug variables check_var_docker_conf_json
+    debug:
+      msg: "{{ check_var_docker_conf_json.status == 404 }}"
+  - name: Create variable {{ gitlab_config_variables_instance['docker_conf_json']['key'] }}
+    uri:
+      url: "{{ gitlab_instance_variable_api }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: POST
+      return_content: yes
+      body: 
+        key: "{{ gitlab_config_variables_instance['docker_conf_json']['key'] }}"
+        value: "{{ gitlab_config_variables_instance['docker_conf_json']['value'] | to_json(ensure_ascii=False) }}"
+        description: "{{ gitlab_config_variables_instance['docker_conf_json']['description'] }}"
+        masked: "{{ gitlab_config_variables_instance['docker_conf_json']['masked'] }}"
+        protected: "{{ gitlab_config_variables_instance['docker_conf_json']['protected'] }}"
+        raw: "{{ gitlab_config_variables_instance['docker_conf_json']['raw'] }}"
+        variable_type: "{{ gitlab_config_variables_instance['docker_conf_json']['variable_type'] }}"
+      status_code: 201
+      body_format: form-urlencoded
+    when: check_var_docker_conf_json.status == 404
+
+  - name: Check if variable {{ gitlab_config_variables_instance['sonarqube_conf']['key'] }} is exist
+    uri:
+      url: "{{ gitlab_instance_variable_api }}/{{ gitlab_config_variables_instance['sonarqube_conf']['key'] }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: GET
+      return_content: yes
+      status_code: 200
+    failed_when: false
+    register: check_var_sonarqube_conf
+  - name: Debug variables check_var_sonarqube_conf
+    debug:
+      msg: "{{ check_var_sonarqube_conf.status == 404 }}"
+  - name: Create variable {{ gitlab_config_variables_instance['sonarqube_conf']['key'] }}
+    uri:
+      url: "{{ gitlab_instance_variable_api }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: POST
+      return_content: yes
+      body: 
+        key: "{{ gitlab_config_variables_instance['sonarqube_conf']['key'] }}"
+        value: "{{ gitlab_config_variables_instance['sonarqube_conf']['value'] }}"
+        description: "{{ gitlab_config_variables_instance['sonarqube_conf']['description'] }}"
+        masked: "{{ gitlab_config_variables_instance['sonarqube_conf']['masked'] }}"
+        protected: "{{ gitlab_config_variables_instance['sonarqube_conf']['protected'] }}"
+        raw: "{{ gitlab_config_variables_instance['sonarqube_conf']['raw'] }}"
+        variable_type: "{{ gitlab_config_variables_instance['sonarqube_conf']['variable_type'] }}"
+      status_code: 201
+      body_format: form-urlencoded
+    when: check_var_sonarqube_conf.status == 404
+
+  - name: Check if variable {{ gitlab_config_variables_instance['sonarqube_auth_conf']['key'] }} is exist
+    uri:
+      url: "{{ gitlab_instance_variable_api }}/{{ gitlab_config_variables_instance['sonarqube_auth_conf']['key'] }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: GET
+      return_content: yes
+      status_code: 200
+    failed_when: false
+    register: check_var_sonarqube_auth_conf
+  - name: Debug variables check_var_sonarqube_conf
+    debug:
+      msg: "{{ check_var_sonarqube_auth_conf.status == 404 }}"
+  - name: Create variable {{ gitlab_config_variables_instance['sonarqube_auth_conf']['key'] }}
+    uri:
+      url: "{{ gitlab_instance_variable_api }}"
+      headers:
+        PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+      method: POST
+      return_content: yes
+      body: 
+        key: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['key'] }}"
+        value: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['value'] }}"
+        description: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['description'] }}"
+        masked: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['masked'] }}"
+        protected: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['protected'] }}"
+        raw: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['raw'] }}"
+        variable_type: "{{ gitlab_config_variables_instance['sonarqube_auth_conf']['variable_type'] }}"
+      status_code: 201
+      body_format: form-urlencoded
+    when: check_var_sonarqube_auth_conf.status == 404
