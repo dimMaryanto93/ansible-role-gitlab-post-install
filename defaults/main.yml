@@ -4,6 +4,7 @@ gitlab_private_access_token: "<change-me>" # generate the access token from gitl
 sonarqube_auth_token: "<change-me>" # generate the access token from sonarqube on System -> access token, see tutorial below
 enabled_gitlab_config_variables_instance: false
 enabled_gitlab_import_sources: false
+enabled_update_gitlab_runners: false
 gitlab_import_sources: "git,gitea,github,bitbucket,manifest"
 m2_setting_xml_conf: "{{ lookup('ansible.builtin.template', 'm2_settings.xml.j2') }}"
 docker_config_json_conf: "{{ lookup('ansible.builtin.template', 'docker_config.json.j2') }}"

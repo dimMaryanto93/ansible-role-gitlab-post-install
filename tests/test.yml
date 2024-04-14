@@ -3,9 +3,10 @@
   vars:
     enabled_gitlab_config_variables_instance: true
     enabled_gitlab_import_sources: true
+    enabled_update_gitlab_runners: true
     gitlab_address: localhost
+    gitlab_private_access_token: "glpat-vzN1WtHr-x3SbVarC_Q9"
     docker_registry_login_secret: "<username>:<password>(changed-me)"
-    gitlab_private_access_token: "<changed-me>"
     sonarqube_host: "<changed-me>"
     sonarqube_port: "<changed-me>"
     sonarqube_auth_token: "<changed-me>"

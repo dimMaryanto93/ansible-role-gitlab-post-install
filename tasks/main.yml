@@ -8,3 +8,6 @@
 - name: Update setting for import & export project
   include_tasks: import-settings.yaml
   when: enabled_gitlab_import_sources
+- name: Update runners setting
+  include_tasks: runners-setting.yaml
+  when: enabled_update_gitlab_runners

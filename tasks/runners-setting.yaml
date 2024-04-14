@@ -1,0 +1,28 @@
+- name: Setting host facts to use gitlab api v4 variables
+  set_fact:
+    gitlab_runners_api: "{{ gitlab_baseurl_api }}/runners"
+
+- name: Get all runners
+  uri:
+    url: "{{ gitlab_runners_api }}/all"
+    headers:
+      PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+    method: GET
+    return_content: yes
+    status_code: 200
+  failed_when: false
+  register: list_runners
+- debug:
+    msg: "{{ list_runners.json }}"
+- name: Update runners to run as untagged
+  uri:
+    url: "{{ gitlab_runners_api }}/{{ item.id }}"
+    headers:
+      PRIVATE-TOKEN: "{{ gitlab_private_access_token }}"
+    method: PUT
+    return_content: yes
+    status_code: 200
+    body:
+      run_untagged: true
+    body_format: form-urlencoded
+  loop: "{{ list_runners.json }}"
